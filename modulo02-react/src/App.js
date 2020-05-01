@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import api from './services/api';
 
-import backgroundImage from './assets/spot4.jpg';
 import './App.css';
 
 import Header from './components/Header';
@@ -9,27 +9,39 @@ import Header from './components/Header';
  * - UseState retorna um array com 2 posições
  * 1º Variável com o seu valor inicial
  * 2º Função para atualizarmos esse valor
+ * 
+ * - Sempre começar o estado com o tipo de info que irá receber
+ * nesse caso array... ex: 'useState([])'
  */
 
 function App() {
-  const [projects, setProjects] = useState(['Desenvolvimento', 'Produção']);
+  const [projects, setProjects] = useState([]);
 
-  function handleAddProject() {
-    //projects.push(`Novo projeto ${Date.now()}`);
+  useEffect(() => {
+    api.get('projects').then(response => {
+      setProjects(response.data);
+    });
+  }, []);
 
-    setProjects([...projects, `Novo projeto ${Date.now()}`]);
+  async function handleAddProject() {
+    // setProjects([...projects, `Novo projeto ${Date.now()}`]);
 
-    console.log(projects);
+   const response = await api.post('projects', {
+      title: `Novo projeto ${Date.now()}`,
+      owner: "Saron Medeiros"
+    });
+
+    const project = response.data;
+
+    setProjects([...projects, project]);
   }
 
   return (
   <>
     <Header title='Projects' />
 
-    <img src={backgroundImage} alt="background"/>
-
     <ul>
-      {projects.map(project => <li key={project}>{project}</li>)}
+      {projects.map(project => <li key={project.id}>{project.title}</li>)}
     </ul>
 
     <button type="button" onClick={handleAddProject}>Adicionar projeto</button>
