@@ -67,3 +67,12 @@
 - O usuário não pode agendar em um horário já ocupado;
 - O usuário não pode agendar em um horário que já passou;
 - O usuário não pode agendar um horário consigo mesmo;
+
+# recuperação de senha
+
+1. Rotas e Controllers
+2. Repositórios de tokens (TypeORM)
+3. Criar migrations token
+4. Provider de envio de e-mail (DEV)
+5. Registrar providers no container
+6. Testar tudo
