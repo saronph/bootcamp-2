@@ -1,7 +1,6 @@
 import { injectable, inject } from 'tsyringe';
 
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
-import cache from '@config/cache';
 import Appointment from '../infra/typeorm/entities/Appointment';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
@@ -43,8 +42,6 @@ class ListProviderAppointmentsService {
           year,
         },
       );
-
-      console.log('Buscou do banco');
 
       await this.cacheProvider.save(cacheKey, appointments);
     }
